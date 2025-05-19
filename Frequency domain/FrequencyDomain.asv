@@ -1,0 +1,18 @@
+%  ==========================================================================
+%  | Instructions to test individual exercise:                              |
+%  | Add a return at the end of the exercise code, so it stops executing    |
+%  |    further code                                                        |
+%  ==========================================================================
+
+% ex1
+image = zeros(200, 200, "uint8");
+x_start = 50;
+y_start = 50;
+x_end = 150;
+y_end = 100;
+
+image(y_start:1:y_end, x_start:1:x_end) = 255;
+imshow(image);
+
+fspec = fft2(image);
+figure; imshow
