@@ -96,18 +96,12 @@ prewitt_mag = sqrt(convX.^2 + convY.^2);
 figure;
 for i = 1:length(thresholds)
     t = thresholds(i);
-
-    % Apply binary threshold
     rob_bin = roberts_mag > t;
     pre_bin = prewitt_mag > t;
-
-    % Display images
     subplot(length(thresholds), 3, (i-1)*3 + 1);
     imshow(image); title('Original');
-
     subplot(length(thresholds), 3, (i-1)*3 + 2);
     imshow(rob_bin); title(['Roberts Threshold ', num2str(t)]);
-
     subplot(length(thresholds), 3, (i-1)*3 + 3);
     imshow(pre_bin); title(['Prewitt Threshold ', num2str(t)]);
 end
@@ -195,38 +189,39 @@ sobel_edges = sobel_result > 100;
 % Canny
 canny_edges = edge(image, "canny", [0.1 0.125]);
 
-figure;
+f1= figure;
 
-subplot(2,4,1);
+subplot(3,2,1);
 imshow(image_rgb, []);
 title('Grayscale Image');
 
-subplot(2,4,2);
+subplot(3,2,2);
 imshow(image, []);
 title('Grayscale Image');
 
-subplot(2,4,5);
+subplot(3,2,3);
 imshow(roberts_result, []);
 title('Roberts Edge Detection');
 
-subplot(2,4,6);
+subplot(3,2,4);
 imshow(prewitt_result, []);
 title('Prewitt Edge Detection');
 
-subplot(2,4,7);
+subplot(3,2,5);
 imshow(sobel_result, []);
 title('Sobel Edge Detection');
 
-subplot(2,4,8);
+subplot(3,2,6);
 imshow(canny_edges, []);
 title('Canny Edge Detection');
 
-figure;
+f2 =figure;
 imshow(image_rgb); hold on;
 visboundaries(canny_edges, 'Color', 'b', 'LineWidth', 0.7);
 title('Canny Edges Overlayed on Original');
 
-
+exportgraphics(f1,"all.png")
+exportgraphics(f2,"outline.png")
 
 
 
