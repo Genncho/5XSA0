@@ -1,0 +1,237 @@
+
+% ex. 1
+clc;
+clear all;
+close all;
+image = imread("InputImages\lena.bmp");
+
+% noise - for analysis
+h = fspecial('gaussian', [5 5], 1); 
+image_smooth = imfilter(image, h, 'replicate');
+noise_estimate = image - image_smooth;
+
+% Roberts
+Gx_r = [1 0; 0 -1];
+Gy_r = [0 1; -1 0];
+convX_r = conv2(image, Gx_r, 'same');
+convY_r = conv2(image, Gy_r, 'same');
+roberts_result = sqrt(convX_r.^2 + convY_r.^2);
+
+% Prewitt
+Gx_p = [1 0 -1; 1 0 -1; 1 0 -1];
+Gy_p = [1 1 1; 0 0 0; -1 -1 -1];
+convX_p = conv2(image, Gx_p, 'same');
+convY_p = conv2(image, Gy_p, 'same');
+prewitt_result = sqrt(convX_p.^2 + convY_p.^2);
+
+% Sobel
+Gx_s = [1 0 -1; 2 0 -2; 1 0 -1];
+Gy_s = [1 2 1; 0 0 0; -1 -2 -1];
+convX_s = conv2(image, Gx_s, 'same');
+convY_s = conv2(image, Gy_s, 'same');
+sobel_result = sqrt(convX_s.^2 + convY_s.^2);
+
+figure;
+
+subplot(2,3,1);
+imshow(image, []);
+title('Original Image');
+
+subplot(2,3,2);
+imshow(noise_estimate, []);
+title('Noise');
+
+subplot(2,3,4);
+imshow(roberts_result, []);
+title('Roberts Edge Detection');
+
+subplot(2,3,5);
+imshow(prewitt_result, []);
+title('Prewitt Edge Detection');
+
+subplot(2,3,6);
+imshow(sobel_result, []);
+title('Sobel Edge Detection');
+
+% noise is around the edges, so Sobel's noise reduction is barely noticable
+% compared to Prewitt result
+
+%ex. 2
+clc;
+clear all;
+close all;
+
+img_size = 200;
+image = zeros(img_size, img_size, "uint8");
+center_x = 100;
+center_y = 100;
+radius = 50;
+[x, y] = meshgrid(1:img_size, 1:img_size);
+circle_mask = (x - center_x).^2 + (y - center_y).^2 <= radius^2;
+image(circle_mask) = 255;
+figure; imshow(image, []); title("White rectangle on a black background");
+
+thresholds = [30, 70, 130];
+
+% Roberts
+Gx = [ 1 0 ; 0 -1 ];
+Gy = [ 0 1 ; -1 0 ];
+
+convX = conv2(image, Gx, 'same');
+convY = conv2(image, Gy, 'same');
+roberts_mag = sqrt(convX.^2 + convY.^2);
+
+% Prewitt
+Gx = [1 0 -1; 1 0 -1; 1 0 -1];
+Gy = [1 1 1; 0 0 0; -1 -1 -1];
+convX = conv2(image, Gx, 'same');
+convY = conv2(image, Gy, 'same');
+prewitt_mag = sqrt(convX.^2 + convY.^2);
+
+figure;
+for i = 1:length(thresholds)
+    t = thresholds(i);
+
+    % Apply binary threshold
+    rob_bin = roberts_mag > t;
+    pre_bin = prewitt_mag > t;
+
+    % Display images
+    subplot(length(thresholds), 3, (i-1)*3 + 1);
+    imshow(image); title('Original');
+
+    subplot(length(thresholds), 3, (i-1)*3 + 2);
+    imshow(rob_bin); title(['Roberts Threshold ', num2str(t)]);
+
+    subplot(length(thresholds), 3, (i-1)*3 + 3);
+    imshow(pre_bin); title(['Prewitt Threshold ', num2str(t)]);
+end
+hold on;
+
+% The generated shape is too clean to show any meaningful difference in
+% noise reduction or threshholding by applying Roberts or Prewitt filters.
+% However with Lena, it becomes much more apperant the effect of the
+% techniques and their threshholding values
+
+% ex 2.5
+% with Lena as image
+image = imread("InputImages\lena.bmp");
+thresholds = [30, 70, 130];
+
+% Roberts
+Gx = [ 1 0 ; 0 -1 ];
+Gy = [ 0 1 ; -1 0 ];
+
+convX = conv2(image, Gx, 'same');
+convY = conv2(image, Gy, 'same');
+roberts_mag = sqrt(convX.^2 + convY.^2);
+
+% Prewitt
+Gx = [1 0 -1; 1 0 -1; 1 0 -1];
+Gy = [1 1 1; 0 0 0; -1 -1 -1];
+convX = conv2(image, Gx, 'same');
+convY = conv2(image, Gy, 'same');
+prewitt_mag = sqrt(convX.^2 + convY.^2);
+
+figure;
+for i = 1:length(thresholds)
+    t = thresholds(i);
+
+    % Apply binary threshold
+    rob_bin = roberts_mag > t;
+    pre_bin = prewitt_mag > t;
+
+    % Display images
+    subplot(length(thresholds), 3, (i-1)*3 + 1);
+    imshow(image); title('Original');
+
+    subplot(length(thresholds), 3, (i-1)*3 + 2);
+    imshow(rob_bin); title(['Roberts Threshold ', num2str(t)]);
+
+    subplot(length(thresholds), 3, (i-1)*3 + 3);
+    imshow(pre_bin); title(['Prewitt Threshold ', num2str(t)]);
+end
+hold on;
+
+% ex. 3
+clc;
+clear all;
+close all;
+
+image = imread("InputImages\endoscopic_image.jpg");
+image = rgb2gray(image);
+threshh
+
+% Roberts
+Gx_r = [1 0; 0 -1];
+Gy_r = [0 1; -1 0];
+convX_r = conv2(image, Gx_r, 'same');
+convY_r = conv2(image, Gy_r, 'same');
+roberts_result = sqrt(convX_r.^2 + convY_r.^2);
+roberts_edges = roberts_result > 30;  % Adjust threshold as needed
+
+
+% Prewitt
+Gx_p = [1 0 -1; 1 0 -1; 1 0 -1];
+Gy_p = [1 1 1; 0 0 0; -1 -1 -1];
+convX_p = conv2(image, Gx_p, 'same');
+convY_p = conv2(image, Gy_p, 'same');
+prewitt_result = sqrt(convX_p.^2 + convY_p.^2);
+
+% Sobel
+Gx_s = [1 0 -1; 2 0 -2; 1 0 -1];
+Gy_s = [1 2 1; 0 0 0; -1 -2 -1];
+convX_s = conv2(image, Gx_s, 'same');
+convY_s = conv2(image, Gy_s, 'same');
+sobel_result = sqrt(convX_s.^2 + convY_s.^2);
+
+% Canny
+canny_result = edge(image,"canny", 0.1);
+
+figure;
+
+subplot(2,4,1);
+imshow(image, []);
+title('Original Image');
+
+subplot(2,4,5);
+imshow(roberts_result, []);
+title('Roberts Edge Detection');
+
+subplot(2,4,6);
+imshow(prewitt_result, []);
+title('Prewitt Edge Detection');
+
+subplot(2,4,7);
+imshow(sobel_result, []);
+title('Sobel Edge Detection');
+
+subplot(2,4,8);
+imshow(canny_result, []);
+title('Canny Edge Detection');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
