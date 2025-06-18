@@ -112,9 +112,13 @@ hold on;
 % However with Lena, it becomes much more apperant the effect of the
 % techniques and their threshholding values
 
+clc;
+clear all;
+close all;
+
 % ex 2.5
 % with Lena as image
-image = imread("InputImages\lena.bmp");
+%image = imread("InputImages\lena.bmp");
 thresholds = [30, 70, 130];
 
 % Roberts
@@ -151,7 +155,7 @@ for i = 1:length(thresholds)
     imshow(pre_bin); title(['Prewitt Threshold ', num2str(t)]);
 end
 hold on;
-
+return
 % ex. 3
 clc;
 clear all;
