@@ -100,9 +100,9 @@ for seedIndex = 1:size(pixelsOfInterest, 1)
     greenChannel = rgbImage(:,:,2);
     blueChannel = rgbImage(:,:,3);
 
-    redChannel(region) = 1;      % max red
-    greenChannel(region) = 0;    % no green
-    blueChannel(region) = 0;     % no blue
+    redChannel(region) = 1;     
+    greenChannel(region) = 0;    
+    blueChannel(region) = 0;     
 
     rgbImage(:,:,1) = redChannel;
     rgbImage(:,:,2) = greenChannel;
@@ -119,7 +119,10 @@ f2 = figure;
 imhist(image);
 
 function DisplayLines(thetas, lineSize, filters)
-    A = zeros(400); [j, i] = find(A<Inf);
+    filterNames = [
+      "Horizontal", "45 degrees", "Vertical", "-45 degrees"
+    ];
+    A = zeros(500); [j, i] = find(A<Inf);
     for index = 1:length(thetas) 
         q = find( abs(j-tan(thetas(index)*pi/180)*i)<=lineSize);
         A(q) = 100;
@@ -129,7 +132,7 @@ function DisplayLines(thetas, lineSize, filters)
         filtered = imfilter(A, filters(:,:,i));
         subplot(2, 2, i);
         imshow(filtered);
-        title(['Filter ' num2str(i)]);
+        title(['Filter ' filterNames(i)]);
     end
 end
 
