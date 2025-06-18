@@ -38,7 +38,6 @@ while not(converged)
 end
 image = (image > T);
 imshow(image);
-
 %ex. 3
 clc;
 close all;
@@ -49,12 +48,9 @@ image = im2double(imread("SourceImages\medtest.png"));
 % impixelinfo;
 pixelsOfInterest = [
     [213, 251]; %vertibrade?
-    
     [190, 253]; % ribs? % rib1
-    
     [127, 255]; % rib2
     [132, 252];
-    
     [101, 212]; %rib3
     [105, 209];
 
@@ -117,6 +113,13 @@ impixelinfo;
 % 3b
 f2 = figure;
 imhist(image);
+title("Histogram of the whole image");
+
+figure;
+snippet = image(200:300, 180:280);
+snippet = snippet > 0.9;
+imshow(snippet)
+title("Threshholded (>0.9) snippet of image")
 
 function DisplayLines(thetas, lineSize, filters)
     filterNames = [
@@ -127,12 +130,12 @@ function DisplayLines(thetas, lineSize, filters)
         q = find( abs(j-tan(thetas(index)*pi/180)*i)<=lineSize);
         A(q) = 100;
     end    
-    figure;
+    fig = figure;
     for i = 1:4
         filtered = imfilter(A, filters(:,:,i));
         subplot(2, 2, i);
         imshow(filtered);
-        title(['Filter ' filterNames(i)]);
+        title(sprintf('Filter %s - %dpx', filterNames(i), lineSize));
     end
 end
 

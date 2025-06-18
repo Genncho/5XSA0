@@ -9,7 +9,7 @@ ClusterCenters = [
     [3 4]; 
     [5 6] 
  ];
-[centroids_new, iteration] = K_Cluster_Algorithm(data, 3);
+[centroids_new, iteration] = K_Cluster_Algorithm(data, 5);
 
 function[centroids_new, numIterations] = K_Cluster_Algorithm(dataPoints, ClustersAmount, ClusterCenters)
     % properly index data
@@ -18,7 +18,7 @@ function[centroids_new, numIterations] = K_Cluster_Algorithm(dataPoints, Cluster
     centroids = zeros(2,1,ClustersAmount);
     % create random cluster points
     if nargin == 2 % rng them, otherwise direct assign
-        ClusterCenters = rand(ClustersAmount, 2) .* 10;
+        ClusterCenters = interp1([0,1],[-1,1],rand(ClustersAmount, 2)) .* 10;
     end
     centroids = permute(reshape(ClusterCenters.', 2, 1, []), [1 2 3]);
 
@@ -54,8 +54,8 @@ function[centroids_new, numIterations] = RecursionPart(dataPoints, centroids, it
         % now I have the closest centroid - assign
         clusters{minClusterIdx}(end+1) = point_idx;
     end
-    plotClusters(dataPoints, centroids, clusters, iteration);
-    pause(1);
+    plotClusters(dataPoints, centroids, clusters, iteration); % animate iterations
+    pause(1); % delay
 
     % calculate new centroids - by means of clustered points
     for clusterIdx = 1:size(centroids, 3)
