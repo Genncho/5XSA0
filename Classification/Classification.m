@@ -91,17 +91,15 @@ function[centroids_new, numIterations] = RecursionPart(dataPoints, centroids, it
 end
 
 function d = pointDist2D(p1, p2)
-    % p1 and p2 are 2x1 vectors (x; y)
     d = sqrt(sum((p1 - p2).^2));
 end
 
 function plotClusters(dataPoints, centroids, clusters, iteration)
-    colors = lines(numel(clusters));  % unique colors per cluster
+    colors = lines(numel(clusters));  
 
     figure(1); clf; hold on;
     title(['K-Means Clustering - Iteration ', num2str(iteration)]);
     
-    % Plot each cluster
     for i = 1:numel(clusters)
         if ~isempty(clusters{i})
             clusterData = dataPoints(:,:,clusters{i});
@@ -111,11 +109,10 @@ function plotClusters(dataPoints, centroids, clusters, iteration)
         end
     end
 
-    % Plot centroids
     for i = 1:size(centroids, 3)
         cx = centroids(1,1,i);
         cy = centroids(2,1,i);
-        plot(cx, cy, 'kx', 'MarkerSize', 15, 'LineWidth', 2);  % black X
+        plot(cx, cy, 'kx', 'MarkerSize', 15, 'LineWidth', 2);
     end
 
     axis equal; grid on;
