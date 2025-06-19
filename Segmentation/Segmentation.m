@@ -36,8 +36,10 @@ while not(converged)
     end
     T = newT;
 end
+T
 image = (image > T);
 imshow(image);
+
 %ex. 3
 clc;
 close all;

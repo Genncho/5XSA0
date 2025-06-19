@@ -6,10 +6,9 @@ data = load("2D_points_for_Kmeans.txt");
 data_new = permute(reshape(data.', 2,1,[]), [1 2 3]);
 ClusterCenters = [ 
     [1 2]; 
-    [3 4]; 
-    [5 6] 
+    [-1 4]; 
  ];
-[centroids_new, iteration] = K_Cluster_Algorithm(data, 5);
+[centroids_new, iteration] = K_Cluster_Algorithm(data, 2, ClusterCenters);
 
 function[centroids_new, numIterations] = K_Cluster_Algorithm(dataPoints, ClustersAmount, ClusterCenters)
     % properly index data

@@ -26,7 +26,13 @@ function J=regiongrowing(I,x,y,reg_maxdist)
 % Author: D. Kroon, University of Twente
 
 if(exist('reg_maxdist','var')==0), reg_maxdist=0.2; end
-if(exist('y','var')==0), figure, imshow(I,[]); [y,x]=getpts; y=round(y(1)); x=round(x(1)); end
+if(exist('y','var')==0) 
+    figure 
+    imshow(I,[]); 
+    [y,x]=getpts; 
+    y=round(y(1)); 
+    x=round(x(1)); 
+end
 
 J = zeros(size(I)); % Output 
 Isizes = size(I); % Dimensions of input image
